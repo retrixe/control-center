@@ -15,9 +15,8 @@ compression: lzo
 
 # https://snapcraft.io/docs/desktop-menu-icon-support
 parts:
-  retrixe-control-panel:
+  control-panel:
     plugin: go
-    go-buildtags: -ldflags=""-s -w""
     source: .
     source-type: git
     build-packages:
@@ -26,8 +25,8 @@ parts:
       - xorg-dev
 
 apps:
-  retrixe-control-panel:
-    command: retrixe-control-panel
+  control-panel:
+    command: control-panel
     extensions: [gnome-3-28]
     # https://snapcraft.io/docs/gtk3-applications
     plugs: []
