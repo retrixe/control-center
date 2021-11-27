@@ -13,11 +13,7 @@ grade: devel
 confinement: devmode
 compression: lzo
 
-# https://snapcraft.io/blog/run-scripts-during-snapcraft-builds-with-scriptlets
 # https://snapcraft.io/docs/desktop-menu-icon-support
-# https://snapcraft.io/docs/gtk3-applications
-# https://snapcraft.io/docs/go-applications
-# https://snapcraft.io/docs/node-apps
 parts:
   retrixe-control-panel:
     plugin: go
@@ -26,10 +22,13 @@ parts:
     source-type: git
     build-packages:
       - gcc
+      - libgl1-mesa-dev
+      - xorg-dev
 
 apps:
   retrixe-control-panel:
     command: retrixe-control-panel
     extensions: [gnome-3-28]
+    # https://snapcraft.io/docs/gtk3-applications
     plugs: []
     slots: []

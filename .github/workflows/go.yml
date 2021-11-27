@@ -40,10 +40,20 @@ jobs:
     - name: Build
       run: sh build.sh
 
+    - uses: snapcore/action-build@v1
+      name: Build snap
+      id: snapcraft
+
+    - uses: actions/upload-artifact@v2
+      name: Upload snap
+      with:
+        name: snap
+        path: ${{ steps.snapcraft.outputs.snap }}
+
 #    - name: Test
 #      run: go test -v .
-    
-    - name: Upload a Build Artifact (Linux)
+
+    - name: Upload binary
       uses: actions/upload-artifact@v2.1.4
       if: ${{ success() && matrix.os == 'ubuntu-18.04' }}
       with:
