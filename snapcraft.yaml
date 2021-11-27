@@ -13,6 +13,7 @@ grade: devel
 confinement: devmode
 compression: lzo
 
+# https://snapcraft.io/docs/interface-management
 # https://snapcraft.io/docs/desktop-menu-icon-support
 parts:
   control-panel:
@@ -25,9 +26,24 @@ parts:
       - xorg-dev
 
 apps:
-  control-panel:
+  retrixe-control-panel:
     command: control-panel
     extensions: [gnome-3-28]
-    # https://snapcraft.io/docs/gtk3-applications
-    plugs: []
-    slots: []
+    slots:
+      - dbus-daemon
+  retrixe-control-panel-daemon:
+    command: control-panel --daemon
+    daemon: simple
+    slots:
+      - sysfs-access
+      - dbus-daemon
+
+slots:
+  sysfs-access:
+    interface: system-files
+    read: [/sys]
+    write: [/sys]
+  dbus-daemon:
+    interface: dbus
+    bus: system
+    name: com.retrixe.ControlPanel

@@ -14,14 +14,18 @@ import (
 
 const version = "1.0.0-alpha.0"
 
-// TODO: We need better elevation handling.
-
 func main() {
-	if len(os.Args) >= 2 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
+	log.SetPrefix("[control-panel] ")
+	if len(os.Args) == 2 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
 		println("control-panel version " + version)
 		return
+	} else if len(os.Args) == 2 && (os.Args[1] == "-d" || os.Args[1] == "--daemon") {
+		StartDBusDaemon()
+		return
+	} else if len(os.Args) >= 2 {
+		println("Correct usage: ./control-panel [-v or --version] [-d or --daemon]")
+		return
 	}
-	log.SetPrefix("[control-panel] ")
 
 	a := app.New()
 	w := a.NewWindow("Control Panel")

@@ -14,19 +14,19 @@ import (
 
 func GetLenovoSettings() *fyne.Container {
 	conservationModeButton := widget.NewButton("Conservation Mode: N/A", func() {})
-	if IsConservationModeAvailable() {
+	if IsLenovoConservationModeAvailable() {
 		var updateConservationModeButton func()
 		updateConservationModeButton = func() {
-			if IsConservationModeEnabled() {
+			if IsLenovoConservationModeEnabled() {
 				conservationModeButton.SetText("Conservation Mode: Enabled")
 				conservationModeButton.OnTapped = func() {
-					SetConservationModeStatus(false)
+					SetLenovoConservationModeStatus(false)
 					updateConservationModeButton()
 				}
 			} else {
 				conservationModeButton.SetText("Conservation Mode: Disabled")
 				conservationModeButton.OnTapped = func() {
-					SetConservationModeStatus(true)
+					SetLenovoConservationModeStatus(true)
 					updateConservationModeButton()
 				}
 			}
@@ -46,9 +46,9 @@ func GetLenovoSettings() *fyne.Container {
 	)
 }
 
-const ConservationModeSysFs = "/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
+const LenovoConservationModeSysFs = "/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
 
-func IsConservationModeAvailable() bool {
+func IsLenovoConservationModeAvailable() bool {
 	modulesInfo, err := exec.Command("lsmod").Output()
 	if err != nil {
 		log.Println("Failed to run lsmod!")
@@ -58,7 +58,7 @@ func IsConservationModeAvailable() bool {
 	for _, module := range modules {
 		if strings.Fields(module)[0] == "ideapad_laptop" {
 			// TODO: VPC2004:00 can vary.
-			_, err := os.ReadFile(ConservationModeSysFs)
+			_, err := os.ReadFile(LenovoConservationModeSysFs)
 			if os.IsNotExist(err) {
 				return false
 			} else if err != nil {
@@ -71,8 +71,8 @@ func IsConservationModeAvailable() bool {
 	return false
 }
 
-func IsConservationModeEnabled() bool {
-	data, err := os.ReadFile(ConservationModeSysFs)
+func IsLenovoConservationModeEnabled() bool {
+	data, err := os.ReadFile(LenovoConservationModeSysFs)
 	if os.IsNotExist(err) {
 		log.Println("Lenovo conservation mode status was checked despite no support for it", err)
 		return false
@@ -83,15 +83,15 @@ func IsConservationModeEnabled() bool {
 	return string(data) == "1\n"
 }
 
-func SetConservationModeStatus(mode bool) bool {
-	if !IsConservationModeAvailable() { // Don't accidentally write to the file.
+func SetLenovoConservationModeStatus(mode bool) bool {
+	if !IsLenovoConservationModeAvailable() { // Don't accidentally write to the file.
 		return false
 	}
 	data := []byte("0")
 	if mode {
 		data = []byte("1")
 	}
-	err := os.WriteFile(ConservationModeSysFs, data, os.ModePerm)
+	err := os.WriteFile(LenovoConservationModeSysFs, data, os.ModePerm)
 	if err != nil {
 		log.Println("Failed to set Lenovo conservation mode", err)
 	}
