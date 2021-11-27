@@ -14,6 +14,8 @@ import (
 
 const version = "1.0.0-alpha.0"
 
+// TODO: Complete D-Bus API and convert front-end to D-Bus API GUI.
+
 func main() {
 	log.SetPrefix("[control-panel] ")
 	if len(os.Args) == 2 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
@@ -41,7 +43,7 @@ func main() {
 			}),
 			widget.NewButton("nouveau", func() {
 				parent.Remove(settingsArea)
-				settingsArea = getNouveauSettings()
+				settingsArea = GetNouveauSettings()
 				parent.Add(settingsArea)
 			}),
 		),
@@ -52,10 +54,4 @@ func main() {
 
 	w.Resize(fyne.NewSize(600, 400))
 	w.ShowAndRun()
-}
-
-func getNouveauSettings() *fyne.Container {
-	return container.NewVBox(
-		widget.NewLabel("nouveau: WIP"),
-	)
 }

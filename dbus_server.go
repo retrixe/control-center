@@ -5,6 +5,7 @@ import (
 
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
+	"github.com/retrixe/control-panel/lenovo"
 )
 
 const intro = introspect.IntrospectDeclarationString + `
@@ -23,8 +24,8 @@ const intro = introspect.IntrospectDeclarationString + `
 type api string
 
 func (a api) LenovoGetConservationModeStatus() (int, *dbus.DBusError) {
-	if IsLenovoConservationModeAvailable() {
-		if IsLenovoConservationModeEnabled() {
+	if lenovo.IsConservationModeAvailable() {
+		if lenovo.IsConservationModeEnabled() {
 			return 1, nil
 		} else {
 			return 0, nil
@@ -35,7 +36,7 @@ func (a api) LenovoGetConservationModeStatus() (int, *dbus.DBusError) {
 }
 
 func (a api) LenovoSetConservationMode(status uint) (uint, *dbus.DBusError) {
-	if SetLenovoConservationModeStatus(status == 1) {
+	if lenovo.SetConservationModeStatus(status == 1) {
 		return 1, nil
 	}
 	return 0, nil
