@@ -1,0 +1,35 @@
+name: retrixe-control-panel
+version: '1.0.0-dev.git'
+license: GPL-3.0+
+title: Control Panel
+summary: A Linux app for settings usually not in your desktop's Settings app.
+description: |
+  A Linux app for settings usually not in your desktop's Settings app.
+  Currently only supports changing Lenovo laptops' Conservation Mode
+  and reclocking GPUs using the nouveau driver (experimental).
+
+base: core18
+grade: devel
+confinement: devmode
+compression: lzo
+
+# https://snapcraft.io/blog/run-scripts-during-snapcraft-builds-with-scriptlets
+# https://snapcraft.io/docs/desktop-menu-icon-support
+# https://snapcraft.io/docs/gtk3-applications
+# https://snapcraft.io/docs/go-applications
+# https://snapcraft.io/docs/node-apps
+parts:
+  retrixe-control-panel:
+    plugin: go
+    go-buildtags: -ldflags=""-s -w""
+    source: .
+    source-type: git
+    build-packages:
+      - gcc
+
+apps:
+  retrixe-control-panel:
+    command: retrixe-control-panel
+    extensions: [gnome-3-28]
+    plugs: []
+    slots: []
