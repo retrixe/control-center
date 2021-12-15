@@ -1,4 +1,4 @@
-name: Go CI
+name: Build CI
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build
+  build-daemon:
+    name: Build daemon
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -65,6 +65,55 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: daemon/control-center
         # The desired behavior if no files are found using the provided path.
+
+  build-app:
+    name: Build app
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+    defaults:
+      run:
+        working-directory: ./app
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        channel: stable
+
+    - name: Enable Flutter Linux support
+      run: flutter config --enable-linux-desktop
+
+    - name: Get dependencies
+      run: |
+        sudo apt-get install clang cmake ninja-build pkg-config libgtk-3-dev
+        flutter pub get
+
+#    - name: Run tests
+#      run: flutter test
+
+    - name: Build
+      run: flutter build linux
+
+    - name: Upload binary as build artifact
+      uses: actions/upload-artifact@v2
+      if: ${{ success() && matrix.os == 'ubuntu-18.04' }}
+      with:
+        # Artifact name
+        name: control-center # optional, default is artifact
+        # A file, directory or wildcard pattern that describes what to upload
+        path: app/build/linux/x64/release/bundle
+        # The desired behavior if no files are found using the provided path.
+
+  build-snap:
+    name: Build snap
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
 
     - uses: snapcore/action-build@v1
       name: Build snap

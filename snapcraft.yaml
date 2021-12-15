@@ -31,12 +31,12 @@ parts:
 
 apps:
   retrixe-control-center:
-    command: control-center
+    command: controlcenter
     extensions: [flutter-stable]
     slots:
       - dbus-daemon
   daemon: # retrixe-control-center.daemon
-    command: control-center-daemon --daemon
+    command: daemon --daemon
     daemon: simple
     slots:
       - sysfs-access
