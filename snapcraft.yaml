@@ -17,9 +17,12 @@ compression: lzo
 # https://snapcraft.io/docs/desktop-menu-icon-support
 parts:
   control-center:
+    plugin: flutter
+    source: ./app
+    flutter-target: lib/main.dart
+  control-center-daemon:
     plugin: go
-    source: .
-    source-subdir: daemon
+    source: ./daemon
     source-type: local
     build-packages:
       - gcc
@@ -29,11 +32,11 @@ parts:
 apps:
   retrixe-control-center:
     command: control-center
-    extensions: [gnome-3-28]
+    extensions: [flutter-stable]
     slots:
       - dbus-daemon
-  retrixe-control-center-daemon:
-    command: control-center --daemon
+  daemon: # retrixe-control-center.daemon
+    command: control-center-daemon --daemon
     daemon: simple
     slots:
       - sysfs-access
