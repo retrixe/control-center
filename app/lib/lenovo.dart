@@ -1,34 +1,38 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:controlcenter/page.dart';
 import 'package:dbus/dbus.dart';
 
-class LenovoSettingsPage extends StatelessWidget {
-  const LenovoSettingsPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class LenovoSettingsPage extends SettingsPage {
+  const LenovoSettingsPage(
+      {Key? key, required String title, required DBusClient client})
+      : super(key: key, title: title, client: client);
 
   @override
-  Widget build(BuildContext context) {
-    return SettingsPage(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: const <Widget>[
-            LenovoConservationModeSetting(),
-          ],
-        ),
+  Widget buildPage(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          LenovoConservationModeSetting(
+              client: client, showDBusError: () => showDBusError(context)),
+        ],
       ),
-      title: title,
     );
   }
 }
 
 class LenovoConservationModeSetting extends StatefulWidget {
-  const LenovoConservationModeSetting({Key? key}) : super(key: key);
+  const LenovoConservationModeSetting(
+      {Key? key, required this.client, required this.showDBusError})
+      : super(key: key);
+
+  final DBusClient client;
+  final Future<void> Function() showDBusError;
 
   @override
   createState() => _LenovoConservationModeSettingState();
@@ -41,8 +45,7 @@ class _LenovoConservationModeSettingState
   late Timer _timer;
 
   Future<void> updateStateFromDBus() async {
-    var client = DBusClient.system();
-    var object = DBusRemoteObject(client,
+    var object = DBusRemoteObject(widget.client,
         name: 'com.retrixe.ControlCenter.v0',
         path: DBusObjectPath('/com/retrixe/ControlCenter/v0'));
     var result = await object.callMethod(
@@ -55,8 +58,7 @@ class _LenovoConservationModeSettingState
   }
 
   Future<bool> setConservationMode(bool value) async {
-    var client = DBusClient.system();
-    var object = DBusRemoteObject(client,
+    var object = DBusRemoteObject(widget.client,
         name: 'com.retrixe.ControlCenter.v0',
         path: DBusObjectPath('/com/retrixe/ControlCenter/v0'));
     var result = await object.callMethod('com.retrixe.ControlCenter.v0',
@@ -66,11 +68,18 @@ class _LenovoConservationModeSettingState
 
   @override
   void initState() {
-    // TODO: Error handling.
     super.initState();
-    updateStateFromDBus().catchError(print);
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      updateStateFromDBus().catchError(print);
+    updateStateFromDBus().catchError((error) {
+      stderr.writeln(error);
+      widget.showDBusError();
+    });
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      try {
+        await updateStateFromDBus();
+      } catch (error) {
+        stderr.writeln(error);
+        widget.showDBusError();
+      }
     });
   }
 
@@ -86,12 +95,17 @@ class _LenovoConservationModeSettingState
     });
     setConservationMode(value).then((success) {
       if (!success) {
-        // Revert the set.
         setState(() {
           enabled = !value;
         });
       }
-    }).catchError(print);
+    }).catchError((error) {
+      setState(() {
+        enabled = !value;
+      });
+      stderr.writeln(error);
+      widget.showDBusError();
+    });
   }
 
   @override

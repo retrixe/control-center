@@ -1,11 +1,14 @@
+import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key, required this.child, required this.title})
+abstract class SettingsPage extends StatelessWidget {
+  const SettingsPage({Key? key, required this.title, required this.client})
       : super(key: key);
 
-  final Widget child;
   final String title;
+  final DBusClient client;
+
+  Widget buildPage(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +48,40 @@ class SettingsPage extends StatelessWidget {
             indent: 0,
             endIndent: 0,
           ),
-          Expanded(child: child),
+          Expanded(child: buildPage(context)),
         ],
       ),
+    );
+  }
+
+  Future<void> showDBusError(BuildContext context) async {
+    // The navigator is never poppable unless there's a dialog.
+    if (Navigator.of(context).canPop()) return;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text(
+                    "An error occurred when talking to the Control Center daemon."),
+                Text("The app may not work correctly!"),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Dismiss'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
