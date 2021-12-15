@@ -19,7 +19,8 @@ parts:
   control-center:
     plugin: go
     source: .
-    source-type: git
+    source-subdir: daemon
+    source-type: local
     build-packages:
       - gcc
       - libgl1-mesa-dev

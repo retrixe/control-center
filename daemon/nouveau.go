@@ -7,7 +7,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/retrixe/control-center/nouveau"
+	"github.com/retrixe/control-center/daemon/nouveau"
 )
 
 // TODO: Complete D-Bus API and convert front-end to D-Bus API GUI for nouveau.

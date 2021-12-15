@@ -1,4 +1,4 @@
-module github.com/retrixe/control-center
+module github.com/retrixe/control-center/daemon
 
 go 1.17
 
