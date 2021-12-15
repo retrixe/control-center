@@ -5,7 +5,7 @@ import (
 
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
-	"github.com/retrixe/control-panel/lenovo"
+	"github.com/retrixe/control-center/lenovo"
 )
 
 const intro = introspect.IntrospectDeclarationString + `

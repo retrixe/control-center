@@ -6,7 +6,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/retrixe/control-panel/lenovo"
+	"github.com/retrixe/control-center/lenovo"
 )
 
 func GetLenovoSettings() *fyne.Container {

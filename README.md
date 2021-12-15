@@ -1,4 +1,4 @@
-# control-panel
+# control-center
 
 A Linux app for settings usually not in your desktop's Settings app.
 

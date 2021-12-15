@@ -1,4 +1,4 @@
-name: retrixe-control-panel
+name: retrixe-control-center
 version: '1.0.0-dev.git'
 license: GPL-3.0+
 title: Control Panel
@@ -16,7 +16,7 @@ compression: lzo
 # https://snapcraft.io/docs/interface-management
 # https://snapcraft.io/docs/desktop-menu-icon-support
 parts:
-  control-panel:
+  control-center:
     plugin: go
     source: .
     source-type: git
@@ -26,13 +26,13 @@ parts:
       - xorg-dev
 
 apps:
-  retrixe-control-panel:
-    command: control-panel
+  retrixe-control-center:
+    command: control-center
     extensions: [gnome-3-28]
     slots:
       - dbus-daemon
-  retrixe-control-panel-daemon:
-    command: control-panel --daemon
+  retrixe-control-center-daemon:
+    command: control-center --daemon
     daemon: simple
     slots:
       - sysfs-access

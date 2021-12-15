@@ -17,15 +17,15 @@ const version = "1.0.0-alpha.0"
 // TODO: Complete D-Bus API and convert front-end to D-Bus API GUI.
 
 func main() {
-	log.SetPrefix("[control-panel] ")
+	log.SetPrefix("[control-center] ")
 	if len(os.Args) == 2 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
-		println("control-panel version " + version)
+		println("control-center version " + version)
 		return
 	} else if len(os.Args) == 2 && (os.Args[1] == "-d" || os.Args[1] == "--daemon") {
 		StartDBusDaemon()
 		return
 	} else if len(os.Args) >= 2 {
-		println("Correct usage: ./control-panel [-v or --version] [-d or --daemon]")
+		println("Correct usage: ./control-center [-v or --version] [-d or --daemon]")
 		return
 	}
 

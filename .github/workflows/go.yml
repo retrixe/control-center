@@ -55,9 +55,9 @@ jobs:
       if: ${{ success() && matrix.os == 'ubuntu-18.04' }}
       with:
         # Artifact name
-        name: control-panel # optional, default is artifact
+        name: control-center # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: control-panel
+        path: control-center
         # The desired behavior if no files are found using the provided path.
 
     - uses: snapcore/action-build@v1
