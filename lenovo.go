@@ -6,24 +6,26 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/retrixe/control-center/lenovo"
 )
 
 func GetLenovoSettings() *fyne.Container {
 	conservationModeButton := widget.NewButton("Conservation Mode: N/A", func() {})
-	if lenovo.IsConservationModeAvailable() {
+	conservationModeStatus, err := LenovoGetConservationModeStatus()
+	// TODO: Error handling.
+	if err == nil && (conservationModeStatus == 0 || conservationModeStatus == 1) {
 		var updateConservationModeButton func()
 		updateConservationModeButton = func() {
-			if lenovo.IsConservationModeEnabled() {
+			conservationModeStatus, _ := LenovoGetConservationModeStatus()
+			if conservationModeStatus == 1 {
 				conservationModeButton.SetText("Conservation Mode: Enabled")
 				conservationModeButton.OnTapped = func() {
-					lenovo.SetConservationModeStatus(false)
+					LenovoSetConservationMode(false)
 					updateConservationModeButton()
 				}
 			} else {
 				conservationModeButton.SetText("Conservation Mode: Disabled")
 				conservationModeButton.OnTapped = func() {
-					lenovo.SetConservationModeStatus(true)
+					LenovoSetConservationMode(true)
 					updateConservationModeButton()
 				}
 			}

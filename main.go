@@ -10,28 +10,45 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/godbus/dbus/v5"
 )
 
 const version = "1.0.0-alpha.0"
 
-// TODO: Complete D-Bus API and convert front-end to D-Bus API GUI.
+var conn *dbus.Conn
+
+func InitialiseDBusConnection() {
+	connection, err := dbus.ConnectSystemBus()
+	if err != nil {
+		log.Fatalln("Failed to connect to D-Bus system bus!", err)
+	} else {
+		log.Println("Successfully connected to D-Bus system bus!")
+		conn = connection
+	}
+}
 
 func main() {
 	log.SetPrefix("[control-center] ")
 	if len(os.Args) == 2 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
-		println("control-center version " + version)
+		log.Println("control-center version " + version)
 		return
 	} else if len(os.Args) == 2 && (os.Args[1] == "-d" || os.Args[1] == "--daemon") {
+		InitialiseDBusConnection()
+		defer conn.Close()
 		StartDBusDaemon()
 		return
 	} else if len(os.Args) >= 2 {
-		println("Correct usage: ./control-center [-v or --version] [-d or --daemon]")
+		log.Println("Correct usage: ./control-center [-v or --version] [-d or --daemon]")
 		return
 	}
 
-	a := app.New()
-	w := a.NewWindow("Control Panel")
+	InitialiseDBusConnection()
+	defer conn.Close()
 
+	a := app.New()
+	w := a.NewWindow("Control Center")
+
+	// TODO: Add a way to handle errors.
 	settingsArea := GetLenovoSettings()
 	var parent *fyne.Container
 	parent = container.NewHBox(
