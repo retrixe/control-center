@@ -13,6 +13,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04]
+    defaults:
+      run:
+        working-directory: ./daemon
     steps:
     - name: Set up Go 1.17
       uses: actions/setup-go@v2
@@ -41,7 +44,6 @@ jobs:
 
     - name: Get dependencies
       run: |
-        cd daemon
         go get -v -t -d ./...
 #        if [ -f Gopkg.toml ]; then
 #            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
@@ -51,14 +53,17 @@ jobs:
     - name: Build
       run: sh build.sh
 
+    - name: Test
+      run: go test -v .
+
     - name: Upload binary as build artifact
       uses: actions/upload-artifact@v2
       if: ${{ success() && matrix.os == 'ubuntu-18.04' }}
       with:
         # Artifact name
-        name: control-center # optional, default is artifact
+        name: control-center-daemon # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: control-center
+        path: daemon/control-center
         # The desired behavior if no files are found using the provided path.
 
     - uses: snapcore/action-build@v1
@@ -70,6 +75,3 @@ jobs:
       with:
         name: snap
         path: ${{ steps.snapcraft.outputs.snap }}
-
-#    - name: Test
-#      run: go test -v .
