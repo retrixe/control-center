@@ -54,7 +54,7 @@ abstract class SettingsPage extends StatelessWidget {
     );
   }
 
-  Future<void> showDBusError(BuildContext context) async {
+  Future<void> showDBusError(BuildContext context, List<Widget> text) async {
     // The navigator is never poppable unless there's a dialog.
     if (Navigator.of(context).canPop()) return;
     return showDialog<void>(
@@ -65,11 +65,7 @@ abstract class SettingsPage extends StatelessWidget {
           title: const Text('Error'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
-                Text(
-                    "An error occurred when talking to the Control Center daemon."),
-                Text("The app WILL not work correctly!"),
-              ],
+              children: text,
             ),
           ),
           actions: <Widget>[

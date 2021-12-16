@@ -19,11 +19,16 @@ parts:
   control-center:
     plugin: flutter
     source: ./app
+    source-type: local
+    stage-packages:
+      - libgl1
     flutter-target: lib/main.dart
   control-center-daemon:
     plugin: go
     source: ./daemon
     source-type: local
+    stage-packages:
+      - libgl1
     build-packages:
       - gcc
       - libgl1-mesa-dev

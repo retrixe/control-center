@@ -19,7 +19,8 @@ class LenovoSettingsPage extends SettingsPage {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           LenovoConservationModeSetting(
-              client: client, showDBusError: () => showDBusError(context)),
+              client: client,
+              showDBusError: (text) => showDBusError(context, text)),
         ],
       ),
     );
@@ -32,7 +33,7 @@ class LenovoConservationModeSetting extends StatefulWidget {
       : super(key: key);
 
   final DBusClient client;
-  final Future<void> Function() showDBusError;
+  final Future<void> Function(List<Widget>) showDBusError;
 
   @override
   createState() => _LenovoConservationModeSettingState();
@@ -57,13 +58,12 @@ class _LenovoConservationModeSettingState
     });
   }
 
-  Future<bool> setConservationMode(bool value) async {
+  Future<void> setConservationMode(bool value) async {
     var object = DBusRemoteObject(widget.client,
         name: 'com.retrixe.ControlCenter.v0',
         path: DBusObjectPath('/com/retrixe/ControlCenter/v0'));
-    var result = await object.callMethod('com.retrixe.ControlCenter.v0',
+    await object.callMethod('com.retrixe.ControlCenter.v0',
         'LenovoSetConservationMode', [DBusBoolean(value)]);
-    return result.values[0].toNative();
   }
 
   @override
@@ -71,14 +71,20 @@ class _LenovoConservationModeSettingState
     super.initState();
     updateStateFromDBus().catchError((error) {
       stderr.writeln(error);
-      widget.showDBusError();
+      widget.showDBusError(const [
+        Text("An error occurred when talking to the Control Center daemon."),
+        Text("The app WILL not work correctly!"),
+      ]);
     });
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
       try {
         await updateStateFromDBus();
       } catch (error) {
         stderr.writeln(error);
-        widget.showDBusError();
+        widget.showDBusError(const [
+          Text("An error occurred when talking to the Control Center daemon."),
+          Text("The app WILL not work correctly!"),
+        ]);
       }
     });
   }
@@ -93,18 +99,17 @@ class _LenovoConservationModeSettingState
     setState(() {
       enabled = value;
     });
-    setConservationMode(value).then((success) {
-      if (!success) {
-        setState(() {
-          enabled = !value;
-        });
-      }
-    }).catchError((error) {
+    setConservationMode(value).catchError((error) {
       setState(() {
         enabled = !value;
       });
       stderr.writeln(error);
-      widget.showDBusError();
+      widget.showDBusError(const [
+        Text(
+            "Control Center encountered an error when trying to set this setting."),
+        Text(
+            "The setting might not be applied correctly. Check if the control center daemon is running."),
+      ]);
     });
   }
 

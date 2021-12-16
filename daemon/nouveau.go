@@ -10,7 +10,7 @@ import (
 	"github.com/retrixe/control-center/daemon/nouveau"
 )
 
-// TODO: Complete D-Bus API and convert front-end to D-Bus API GUI for nouveau.
+// TODO: Convert front-end to D-Bus API GUI for nouveau.
 
 func GetNouveauSettings() *fyne.Container {
 	devices, err := nouveau.NouveauGetDRIDevices()

@@ -1,11 +1,15 @@
 package lenovo
 
 import (
+	"errors"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 )
+
+var ErrLenovoConservationModeNotAvailable = errors.New(
+	"lenovo conservation mode is not available on this system")
 
 const ConservationModeSysFs = "/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
 
@@ -44,9 +48,9 @@ func IsConservationModeEnabled() bool {
 	return string(data) == "1\n"
 }
 
-func SetConservationModeStatus(mode bool) bool {
+func SetConservationModeStatus(mode bool) error {
 	if !IsConservationModeAvailable() { // Don't accidentally write to the file.
-		return false
+		return ErrLenovoConservationModeNotAvailable
 	}
 	data := []byte("0")
 	if mode {
@@ -56,5 +60,5 @@ func SetConservationModeStatus(mode bool) bool {
 	if err != nil {
 		log.Println("Failed to set Lenovo conservation mode", err)
 	}
-	return err == nil
+	return err
 }

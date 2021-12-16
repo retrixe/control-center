@@ -6,12 +6,13 @@ import (
 	"github.com/godbus/dbus/v5"
 	"github.com/godbus/dbus/v5/introspect"
 	"github.com/retrixe/control-center/daemon/lenovo"
+	"github.com/retrixe/control-center/daemon/nouveau"
 )
 
 // https://dbus.freedesktop.org/doc/dbus-specification.html
 // https://dbus.freedesktop.org/doc/dbus-tutorial.html
 
-// TODO: Return errors using D-Bus, restrict functions to wheel/sudo users.
+// TODO: Restrict API to wheel/sudo users.
 
 const intro = introspect.IntrospectDeclarationString + `
 <node>
@@ -21,7 +22,10 @@ const intro = introspect.IntrospectDeclarationString + `
 		</method>
 		<method name="LenovoSetConservationMode">
 		  <arg direction="in" type="b"/>
-			<arg direction="out" type="b"/>
+		</method>
+
+		<method name="NouveauGetDRIDevices">
+			<arg direction="out" type="ai"/>
 		</method>
 	</interface>` + introspect.IntrospectDataString + `</node>`
 
@@ -56,6 +60,23 @@ func (f DBusAPI) LenovoGetConservationModeStatus() (int16, *dbus.Error) {
 	}
 }
 
-func (f DBusAPI) LenovoSetConservationMode(status bool) (bool, *dbus.Error) {
-	return lenovo.SetConservationModeStatus(status), nil
+func (f DBusAPI) LenovoSetConservationMode(status bool) *dbus.Error {
+	if err := lenovo.SetConservationModeStatus(status); err != nil {
+		return &dbus.Error{
+			Name: "A daemon error occurred",
+			Body: []interface{}{err.Error()},
+		}
+	}
+	return nil
+}
+
+func (f DBusAPI) NouveauGetDRIDevices() ([]int, *dbus.Error) {
+	devices, err := nouveau.NouveauGetDRIDevices()
+	if err != nil {
+		return nil, &dbus.Error{
+			Name: "A daemon error occurred",
+			Body: []interface{}{err.Error()},
+		}
+	}
+	return devices, nil
 }
