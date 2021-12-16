@@ -39,7 +39,7 @@ jobs:
     - name: Install dependencies on Ubuntu
       run: |
         sudo apt-get update
-        sudo apt-get install --no-install-recommends build-essential libgl1-mesa-dev xorg-dev
+        sudo apt-get install --no-install-recommends build-essential
       if: ${{ success() && matrix.os == 'ubuntu-18.04' }}
 
     - name: Get dependencies

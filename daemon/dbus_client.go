@@ -1,3 +1,4 @@
+// This file is unmaintained.
 package main
 
 import (
@@ -33,5 +34,4 @@ func LenovoSetConservationMode(value bool) error {
 	} else {
 		return nil
 	}
-
 }
