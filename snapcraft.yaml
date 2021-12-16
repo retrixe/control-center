@@ -1,4 +1,4 @@
-name: retrixe-control-center
+name: control-center
 version: '1.0.0-dev.git'
 license: GPL-3.0+
 title: Control Panel
@@ -30,12 +30,12 @@ parts:
       - xorg-dev
 
 apps:
-  retrixe-control-center:
-    command: controlcenter
+  control-center:
+    command: control_center
     extensions: [flutter-stable]
     slots:
       - dbus-daemon
-  daemon: # retrixe-control-center.daemon
+  daemon: # control-center.daemon
     command: daemon --daemon
     daemon: simple
     slots:

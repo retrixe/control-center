@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:controlcenter/page.dart';
+import 'package:control_center/page.dart';
 import 'package:dbus/dbus.dart';
 
 class LenovoSettingsPage extends SettingsPage {

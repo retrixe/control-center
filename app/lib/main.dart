@@ -1,6 +1,6 @@
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
-import 'package:controlcenter/lenovo.dart';
+import 'package:control_center/lenovo.dart';
 
 void main() {
   runApp(const Application());

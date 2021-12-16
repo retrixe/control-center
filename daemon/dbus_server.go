@@ -11,6 +11,8 @@ import (
 // https://dbus.freedesktop.org/doc/dbus-specification.html
 // https://dbus.freedesktop.org/doc/dbus-tutorial.html
 
+// TODO: Return errors using D-Bus, restrict functions to wheel/sudo users.
+
 const intro = introspect.IntrospectDeclarationString + `
 <node>
 	<interface name="com.retrixe.ControlCenter.v0">
