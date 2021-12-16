@@ -1,3 +1,4 @@
+import 'package:control_center/nouveau.dart';
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 import 'package:control_center/lenovo.dart';
@@ -39,6 +40,8 @@ class _ApplicationState extends State<Application> {
       routes: <String, WidgetBuilder>{
         '/lenovo': (BuildContext context) =>
             LenovoSettingsPage(title: 'Lenovo', client: client),
+        '/nouveau': (BuildContext context) =>
+            NouveauSettingsPage(title: 'nouveau', client: client),
       },
     );
   }

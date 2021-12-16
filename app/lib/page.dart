@@ -40,6 +40,15 @@ abstract class SettingsPage extends StatelessWidget {
                   },
                 ),
                 horizontalDivider,
+                ListTile(
+                  selected: title == 'nouveau',
+                  leading: const Icon(Icons.highlight_alt),
+                  title: const Text('nouveau'),
+                  onTap: () {
+                    Navigator.of(context).pushReplacementNamed('/nouveau');
+                  },
+                ),
+                horizontalDivider,
               ],
             ),
           ),
