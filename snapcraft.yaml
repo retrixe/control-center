@@ -33,20 +33,27 @@ apps:
   control-center:
     command: control_center
     extensions: [flutter-stable]
-    slots:
-      - dbus-daemon
+    plugs:
+      - dbus-daemon-access
   daemon: # control-center.daemon
     command: daemon --daemon
     daemon: simple
-    slots:
+    plugs:
       - sysfs-access
+    slots:
       - dbus-daemon
 
-slots:
+plugs:
   sysfs-access:
     interface: system-files
     read: [/sys]
     write: [/sys]
+  dbus-daemon-access:
+    interface: dbus
+    bus: system
+    name: com.retrixe.ControlCenter.v0
+
+slots:
   dbus-daemon:
     interface: dbus
     bus: system

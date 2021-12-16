@@ -68,7 +68,7 @@ abstract class SettingsPage extends StatelessWidget {
               children: const <Widget>[
                 Text(
                     "An error occurred when talking to the Control Center daemon."),
-                Text("The app may not work correctly!"),
+                Text("The app WILL not work correctly!"),
               ],
             ),
           ),
