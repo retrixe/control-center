@@ -96,13 +96,9 @@ class _LenovoConservationModeSettingState
   }
 
   void toggleHandler(bool value) {
-    setState(() {
-      enabled = value;
-    });
+    setState(() => enabled = value);
     setConservationMode(value).catchError((error) {
-      setState(() {
-        enabled = !value;
-      });
+      setState(() => enabled = !value);
       stderr.writeln(error);
       widget.showDBusError(const [
         Text(

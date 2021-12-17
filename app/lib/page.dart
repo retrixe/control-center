@@ -35,18 +35,16 @@ abstract class SettingsPage extends StatelessWidget {
                   selected: title == 'Lenovo',
                   leading: const Icon(Icons.laptop),
                   title: const Text('Lenovo'),
-                  onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/lenovo');
-                  },
+                  onTap: () =>
+                      Navigator.of(context).pushReplacementNamed('/lenovo'),
                 ),
                 horizontalDivider,
                 ListTile(
                   selected: title == 'nouveau',
                   leading: const Icon(Icons.highlight_alt),
                   title: const Text('nouveau'),
-                  onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/nouveau');
-                  },
+                  onTap: () =>
+                      Navigator.of(context).pushReplacementNamed('/nouveau'),
                 ),
                 horizontalDivider,
               ],
@@ -80,9 +78,7 @@ abstract class SettingsPage extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               child: const Text('Dismiss'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
         );

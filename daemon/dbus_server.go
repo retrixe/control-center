@@ -27,6 +27,10 @@ const intro = introspect.IntrospectDeclarationString + `
 		<method name="NouveauGetDRIDevices">
 			<arg direction="out" type="ai"/>
 		</method>
+		<method name="NouveauSetPowerState">
+			<arg direction="in" type="i"/>
+			<arg direction="in" type="s"/>
+		</method>
 	</interface>` + introspect.IntrospectDataString + `</node>`
 
 func StartDBusDaemon() {
@@ -79,4 +83,17 @@ func (f DBusAPI) NouveauGetDRIDevices() ([]int, *dbus.Error) {
 		}
 	}
 	return devices, nil
+}
+
+// TODO: NouveauGetPowerStates
+
+func (f DBusAPI) NouveauSetPowerState(driDevice int, state string) *dbus.Error {
+	err := nouveau.NouveauSetPowerState(driDevice, state)
+	if err != nil {
+		return &dbus.Error{
+			Name: "A daemon error occurred",
+			Body: []interface{}{err.Error()},
+		}
+	}
+	return nil
 }

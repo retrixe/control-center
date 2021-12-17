@@ -1,18 +1,19 @@
 name: control-center
-version: '1.0.0-dev.git'
+version: 'dev'
 license: GPL-3.0+
 title: Control Panel
 summary: A Linux app for settings usually not in your desktop's Settings app.
 description: |
   A Linux app for settings usually not in your desktop's Settings app.
-  Currently only supports changing Lenovo laptops' Conservation Mode
-  and reclocking GPUs using the nouveau driver (experimental).
+  Currently supports Lenovo laptops' Conservation Mode
+  and experimental reclocking for nouveau-powered GPUs.
 
 base: core18
 grade: devel
 confinement: devmode
 compression: lzo
 
+# https://docs.flutter.dev/deployment/linux
 # https://snapcraft.io/docs/interface-management
 # https://snapcraft.io/docs/desktop-menu-icon-support
 parts:

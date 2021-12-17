@@ -3,9 +3,7 @@ import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 import 'package:control_center/lenovo.dart';
 
-void main() {
-  runApp(const Application());
-}
+void main() => runApp(const Application());
 
 class Application extends StatefulWidget {
   const Application({Key? key}) : super(key: key);
@@ -32,7 +30,7 @@ class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Control Center',
+      title: 'Linux Control Center',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
