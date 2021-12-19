@@ -1,5 +1,5 @@
 name: control-center
-version: 'dev'
+version: 'git'
 license: GPL-3.0+
 title: Control Panel
 summary: A Linux app for settings usually not in your desktop's Settings app.
