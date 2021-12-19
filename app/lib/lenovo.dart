@@ -14,14 +14,20 @@ class LenovoSettingsPage extends SettingsPage {
   Widget buildPage(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          LenovoConservationModeSetting(
-              client: client,
-              showDBusError: (text) => showDBusError(context, text)),
-        ],
+      child: SettingCategory(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text("Conservation Mode",
+                style: Theme.of(context).textTheme.headline5),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+            LenovoConservationModeSetting(
+                client: client,
+                showDBusError: (text) => showDBusError(context, text)),
+          ],
+        ),
       ),
     );
   }
@@ -111,11 +117,15 @@ class _LenovoConservationModeSettingState
 
   @override
   Widget build(BuildContext context) {
+    if (!available) {
+      return Text('Not available on this device.',
+          style: Theme.of(context).textTheme.subtitle1);
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Conservation Mode', style: Theme.of(context).textTheme.subtitle1),
+        Text('Enabled', style: Theme.of(context).textTheme.subtitle1),
         Switch(
           value: enabled,
           onChanged: available ? toggleHandler : null,

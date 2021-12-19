@@ -1,5 +1,6 @@
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 abstract class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key, required this.title, required this.client})
@@ -33,7 +34,7 @@ abstract class SettingsPage extends StatelessWidget {
               children: [
                 ListTile(
                   selected: title == 'Lenovo',
-                  leading: const Icon(Icons.laptop),
+                  leading: const Icon(YaruIcons.computer),
                   title: const Text('Lenovo'),
                   onTap: () =>
                       Navigator.of(context).pushReplacementNamed('/lenovo'),
@@ -41,7 +42,7 @@ abstract class SettingsPage extends StatelessWidget {
                 horizontalDivider,
                 ListTile(
                   selected: title == 'nouveau',
-                  leading: const Icon(Icons.highlight_alt),
+                  leading: const Icon(YaruIcons.chip),
                   title: const Text('nouveau'),
                   onTap: () =>
                       Navigator.of(context).pushReplacementNamed('/nouveau'),
@@ -83,6 +84,27 @@ abstract class SettingsPage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class SettingCategory extends StatelessWidget {
+  const SettingCategory({Key? key, required this.child}) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      borderRadius: BorderRadius.circular(4),
+      child: Container(
+        child: child,
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: Theme.of(context).dividerColor),
+        ),
+      ),
     );
   }
 }

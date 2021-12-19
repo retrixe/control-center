@@ -1,7 +1,8 @@
+import 'package:control_center/lenovo.dart';
 import 'package:control_center/nouveau.dart';
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
-import 'package:control_center/lenovo.dart';
+import 'package:yaru/yaru.dart';
 
 void main() => runApp(const Application());
 
@@ -31,9 +32,9 @@ class _ApplicationState extends State<Application> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Linux Control Center',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-      ),
+      theme: yaruLight,
+      darkTheme: yaruDark,
+      // theme: ThemeData(primarySwatch: Colors.deepPurple),
       initialRoute: '/lenovo',
       routes: <String, WidgetBuilder>{
         '/lenovo': (BuildContext context) =>

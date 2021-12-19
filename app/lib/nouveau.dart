@@ -94,7 +94,7 @@ class _NouveauSettingsState extends State<NouveauSettings> {
                       driDevice: device,
                     ))
                 .toList()
-            : const [Text("No devices with nouveau detected!")],
+            : const [Text("No GPUs using the nouveau driver were detected.")],
       ),
     );
   }
@@ -161,21 +161,15 @@ class _NouveauDriDeviceState extends State<NouveauDriDevice> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 2,
-      borderRadius: BorderRadius.circular(4),
-      child: Container(
-        child: Column(children: [
+    return SettingCategory(
+      child: Column(
+        children: [
           Text("nouveau DRI device ${widget.driDevice} (N/A)",
-              style: Theme.of(context).textTheme.headline6),
-          const Divider(),
+              style: Theme.of(context).textTheme.headline5),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
           const Text("pstate toggling not yet implemented"),
-        ]),
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(4),
-        ),
+        ],
+        crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
