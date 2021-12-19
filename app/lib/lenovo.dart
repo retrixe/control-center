@@ -6,9 +6,8 @@ import 'package:control_center/page.dart';
 import 'package:dbus/dbus.dart';
 
 class LenovoSettingsPage extends SettingsPage {
-  const LenovoSettingsPage(
-      {Key? key, required String title, required DBusClient client})
-      : super(key: key, title: title, client: client);
+  const LenovoSettingsPage({Key? key, required DBusClient client})
+      : super(key: key, title: 'Lenovo', client: client);
 
   @override
   Widget buildPage(BuildContext context) {

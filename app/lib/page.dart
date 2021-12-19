@@ -1,3 +1,5 @@
+import 'package:control_center/lenovo.dart';
+import 'package:control_center/nouveau.dart';
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -36,16 +38,16 @@ abstract class SettingsPage extends StatelessWidget {
                   selected: title == 'Lenovo',
                   leading: const Icon(YaruIcons.computer),
                   title: const Text('Lenovo'),
-                  onTap: () =>
-                      Navigator.of(context).pushReplacementNamed('/lenovo'),
+                  onTap: () => Navigator.pushReplacement(
+                      context, pageBuilder(LenovoSettingsPage(client: client))),
                 ),
                 horizontalDivider,
                 ListTile(
                   selected: title == 'nouveau',
                   leading: const Icon(YaruIcons.chip),
                   title: const Text('nouveau'),
-                  onTap: () =>
-                      Navigator.of(context).pushReplacementNamed('/nouveau'),
+                  onTap: () => Navigator.pushReplacement(context,
+                      pageBuilder(NouveauSettingsPage(client: client))),
                 ),
                 horizontalDivider,
               ],
@@ -84,6 +86,15 @@ abstract class SettingsPage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  pageBuilder(Widget widget) {
+    return PageRouteBuilder(
+      pageBuilder: (context, a1, a2) => widget,
+      transitionsBuilder: (context, a1, a2, child) =>
+          FadeTransition(opacity: a1, child: child),
+      transitionDuration: const Duration(milliseconds: 250),
     );
   }
 }

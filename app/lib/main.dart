@@ -32,15 +32,13 @@ class _ApplicationState extends State<Application> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Linux Control Center',
-      theme: yaruLight,
+      theme: yaruLight, // ThemeData(primarySwatch: Colors.deepPurple),
       darkTheme: yaruDark,
-      // theme: ThemeData(primarySwatch: Colors.deepPurple),
       initialRoute: '/lenovo',
       routes: <String, WidgetBuilder>{
-        '/lenovo': (BuildContext context) =>
-            LenovoSettingsPage(title: 'Lenovo', client: client),
+        '/lenovo': (BuildContext context) => LenovoSettingsPage(client: client),
         '/nouveau': (BuildContext context) =>
-            NouveauSettingsPage(title: 'nouveau', client: client),
+            NouveauSettingsPage(client: client),
       },
     );
   }

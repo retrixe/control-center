@@ -6,9 +6,8 @@ import 'package:control_center/page.dart';
 import 'package:dbus/dbus.dart';
 
 class NouveauSettingsPage extends SettingsPage {
-  const NouveauSettingsPage(
-      {Key? key, required String title, required DBusClient client})
-      : super(key: key, title: title, client: client);
+  const NouveauSettingsPage({Key? key, required DBusClient client})
+      : super(key: key, title: 'nouveau', client: client);
 
   @override
   Widget buildPage(BuildContext context) {
