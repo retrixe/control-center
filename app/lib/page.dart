@@ -1,3 +1,4 @@
+import 'package:control_center/about.dart';
 import 'package:control_center/lenovo.dart';
 import 'package:control_center/nouveau.dart';
 import 'package:dbus/dbus.dart';
@@ -48,6 +49,14 @@ abstract class SettingsPage extends StatelessWidget {
                   title: const Text('nouveau'),
                   onTap: () => Navigator.pushReplacement(context,
                       pageBuilder(NouveauSettingsPage(client: client))),
+                ),
+                horizontalDivider,
+                ListTile(
+                  selected: title == 'About',
+                  leading: const Icon(YaruIcons.information),
+                  title: const Text('About'),
+                  onTap: () => Navigator.pushReplacement(
+                      context, pageBuilder(AboutPage(client: client))),
                 ),
                 horizontalDivider,
               ],
