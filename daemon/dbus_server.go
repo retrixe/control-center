@@ -41,9 +41,9 @@ func StartDBusDaemon() {
 
 	reply, err := conn.RequestName("com.retrixe.ControlCenter.v0", dbus.NameFlagDoNotQueue)
 	if err != nil {
-		log.Fatalln("Failed to request D-Bus name com.retrixe.ControlCenter.v0", err)
+		errLog.Fatalln("Failed to request D-Bus name com.retrixe.ControlCenter.v0", err)
 	} else if reply != dbus.RequestNameReplyPrimaryOwner {
-		log.Fatalln("D-Bus name com.retrixe.ControlCenter.v0 already taken")
+		errLog.Fatalln("D-Bus name com.retrixe.ControlCenter.v0 already taken")
 	}
 
 	log.Println("Listening on D-Bus name com.retrixe.ControlCenter.v0.")
