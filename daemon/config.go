@@ -5,16 +5,14 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-
-	"github.com/retrixe/control-center/daemon/lenovo"
 )
 
 type Config struct {
-	LenovoConservationModeEnabled bool `json:"lenovoConservationModeEnabled"`
+	//	LenovoConservationModeEnabled bool `json:"lenovoConservationModeEnabled"`
 }
 
 var config Config = Config{
-	LenovoConservationModeEnabled: false,
+	//	LenovoConservationModeEnabled: false,
 }
 
 func GetConfigPath() string {
@@ -40,6 +38,8 @@ func SaveConfig() {
 	}
 }
 
+// TODO: ReadSystemConfig if config does not exist? Cross-OS compat needs to be better.
+
 func LoadConfig() error {
 	file, err := os.ReadFile(GetConfigPath())
 	if err != nil {
@@ -55,12 +55,12 @@ func LoadConfig() error {
 
 func ApplyConfig() error {
 	// Lenovo Conservation Mode.
-	if lenovo.IsConservationModeAvailable() {
-		err := lenovo.SetConservationModeStatus(config.LenovoConservationModeEnabled)
-		if err != nil {
-			return err
-		}
-	}
+	// if lenovo.IsConservationModeAvailable() {
+	// 	err := lenovo.SetConservationModeStatus(config.LenovoConservationModeEnabled)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// }
 
 	return nil
 }

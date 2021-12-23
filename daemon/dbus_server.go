@@ -71,8 +71,6 @@ func (f DBusAPI) LenovoSetConservationMode(status bool) *dbus.Error {
 			Body: []interface{}{err.Error()},
 		}
 	}
-	config.LenovoConservationModeEnabled = status
-	SaveConfig()
 	return nil
 }
 
