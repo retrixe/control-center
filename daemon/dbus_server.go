@@ -41,12 +41,12 @@ func StartDBusDaemon() {
 
 	reply, err := conn.RequestName("com.retrixe.ControlCenter.v0", dbus.NameFlagDoNotQueue)
 	if err != nil {
-		errLog.Fatalln("Failed to request D-Bus name com.retrixe.ControlCenter.v0", err)
+		log.Fatalln("Failed to request D-Bus name com.retrixe.ControlCenter.v0", err)
 	} else if reply != dbus.RequestNameReplyPrimaryOwner {
-		errLog.Fatalln("D-Bus name com.retrixe.ControlCenter.v0 already taken")
+		log.Fatalln("D-Bus name com.retrixe.ControlCenter.v0 already taken")
 	}
 
-	log.Println("Listening on D-Bus name com.retrixe.ControlCenter.v0.")
+	stdLog.Println("Listening on D-Bus name com.retrixe.ControlCenter.v0.")
 	select {}
 }
 
@@ -71,6 +71,8 @@ func (f DBusAPI) LenovoSetConservationMode(status bool) *dbus.Error {
 			Body: []interface{}{err.Error()},
 		}
 	}
+	config.LenovoConservationModeEnabled = status
+	SaveConfig()
 	return nil
 }
 

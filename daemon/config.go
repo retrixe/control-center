@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -25,17 +26,18 @@ func GetConfigPath() string {
 	return path
 }
 
-func WriteConfig() error {
+func SaveConfig() {
 	file, err := json.Marshal(&config)
 	if err != nil {
-		return err
+		log.Println("Failed to write persistent config file! "+
+			"Any changes made during this session may be lost on reboot!", err)
 	}
 
 	err = os.WriteFile(GetConfigPath(), file, os.ModePerm)
 	if err != nil {
-		return err
+		log.Println("Failed to write persistent config file! "+
+			"Any changes made during this session may be lost on reboot!", err)
 	}
-	return nil
 }
 
 func LoadConfig() error {
