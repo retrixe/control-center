@@ -10,12 +10,11 @@ description: |
 
 base: core18
 grade: devel
-confinement: devmode
 compression: lzo
+confinement: strict
 
 # https://docs.flutter.dev/deployment/linux
 # https://snapcraft.io/docs/interface-management
-# https://snapcraft.io/docs/desktop-menu-icon-support
 parts:
   control-center:
     plugin: flutter

@@ -5,6 +5,6 @@ Name=Linux Control Center
 GenericName=Linux Control Center
 Comment=Miscellaneous settings not in the Settings app.
 Exec=control-center
-#Icon=${SNAP}/meta/gui/control-center.png
+Icon=${SNAP}/meta/gui/control-center.png
 Terminal=false
 Categories=Settings;Application;
