@@ -6,6 +6,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/retrixe/control-center/daemon/utils"
 )
 
 var ErrLenovoConservationModeNotAvailable = errors.New(
@@ -56,7 +58,7 @@ func SetConservationModeStatus(mode bool) error {
 	if mode {
 		data = []byte("1")
 	}
-	err := os.WriteFile(ConservationModeSysFs, data, os.ModePerm)
+	err := utils.WriteFile(ConservationModeSysFs, data)
 	if err != nil {
 		log.Println("Failed to set Lenovo conservation mode", err)
 	}
