@@ -1,3 +1,4 @@
+import 'package:control_center/about.dart';
 import 'package:control_center/lenovo.dart';
 import 'package:control_center/nouveau.dart';
 import 'package:dbus/dbus.dart';
@@ -39,6 +40,7 @@ class _ApplicationState extends State<Application> {
         '/lenovo': (BuildContext context) => LenovoSettingsPage(client: client),
         '/nouveau': (BuildContext context) =>
             NouveauSettingsPage(client: client),
+        '/about': (BuildContext context) => AboutPage(client: client)
       },
     );
   }
