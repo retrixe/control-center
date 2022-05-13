@@ -7,13 +7,9 @@ import (
 	"path/filepath"
 )
 
-type Config struct {
-	//	LenovoConservationModeEnabled bool `json:"lenovoConservationModeEnabled"`
-}
+type Config struct{}
 
-var config Config = Config{
-	//	LenovoConservationModeEnabled: false,
-}
+var config Config = Config{}
 
 func GetConfigPath() string {
 	snapdir := os.Getenv("SNAP_DATA")
@@ -25,6 +21,12 @@ func GetConfigPath() string {
 }
 
 func SaveConfig() {
+	err := os.Mkdir(filepath.Dir(GetConfigPath()), 0755)
+	if err != nil {
+		log.Println("Failed to write persistent config file! "+
+			"Any changes made during this session may be lost on reboot!", err)
+	}
+
 	file, err := json.Marshal(&config)
 	if err != nil {
 		log.Println("Failed to write persistent config file! "+

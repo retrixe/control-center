@@ -22,8 +22,12 @@ func GetConservationModeSysFs() (string, error) {
 		return "", err
 	}
 	for _, folder := range folders {
-		if strings.HasPrefix(folder.Name(), "VPC") && folder.Type().IsDir() {
-			return path.Join(IdeapadAcpiSysFs, folder.Name(), "conservation_mode"), nil
+		if strings.HasPrefix(folder.Name(), "VPC") {
+			conservationModeSysFsPath := path.Join(IdeapadAcpiSysFs, folder.Name(), "conservation_mode")
+			if stat, err := os.Lstat(conservationModeSysFsPath); err != nil || stat.IsDir() {
+				continue
+			}
+			return conservationModeSysFsPath, nil
 		}
 	}
 	return "", ErrLenovoConservationModeNotAvailable
@@ -39,7 +43,9 @@ func IsConservationModeAvailable() bool {
 	for _, module := range modules {
 		if strings.Fields(module)[0] == "ideapad_laptop" {
 			conservationModeSysFs, err := GetConservationModeSysFs()
-			if err != nil {
+			if err == ErrLenovoConservationModeNotAvailable {
+				return false
+			} else if err != nil {
 				log.Println("An unknown error occurred when checking for Lenovo conservation mode", err)
 				return false
 			}
@@ -58,7 +64,9 @@ func IsConservationModeAvailable() bool {
 
 func IsConservationModeEnabled() bool {
 	conservationModeSysFs, err := GetConservationModeSysFs()
-	if err != nil {
+	if err == ErrLenovoConservationModeNotAvailable {
+		return false
+	} else if err != nil {
 		log.Println("An unknown error occurred when checking for Lenovo conservation mode", err)
 		return false
 	}
