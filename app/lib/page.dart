@@ -3,6 +3,7 @@ import 'package:control_center/lenovo.dart';
 import 'package:control_center/nouveau.dart';
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
+import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 abstract class SettingsPage extends StatelessWidget {
@@ -22,53 +23,55 @@ abstract class SettingsPage extends StatelessWidget {
       endIndent: 0,
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Linux Control Center'),
-      ),
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 160,
-            child: ListView(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: [
-                ListTile(
-                  selected: title == 'Lenovo',
-                  leading: const Icon(YaruIcons.computer),
-                  title: const Text('Lenovo'),
-                  onTap: () => Navigator.pushReplacement(
-                      context, pageBuilder(LenovoSettingsPage(client: client))),
-                ),
-                horizontalDivider,
-                ListTile(
-                  selected: title == 'nouveau',
-                  leading: const Icon(YaruIcons.chip),
-                  title: const Text('nouveau'),
-                  onTap: () => Navigator.pushReplacement(context,
-                      pageBuilder(NouveauSettingsPage(client: client))),
-                ),
-                horizontalDivider,
-                ListTile(
-                  selected: title == 'About',
-                  leading: const Icon(YaruIcons.information),
-                  title: const Text('About'),
-                  onTap: () => Navigator.pushReplacement(
-                      context, pageBuilder(AboutPage(client: client))),
-                ),
-                horizontalDivider,
-              ],
+    return YaruTheme(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Linux Control Center'),
+        ),
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 160,
+              child: ListView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                children: [
+                  ListTile(
+                    selected: title == 'Lenovo',
+                    leading: const Icon(YaruIcons.computer),
+                    title: const Text('Lenovo'),
+                    onTap: () => Navigator.pushReplacement(context,
+                        pageBuilder(LenovoSettingsPage(client: client))),
+                  ),
+                  horizontalDivider,
+                  ListTile(
+                    selected: title == 'nouveau',
+                    leading: const Icon(YaruIcons.chip),
+                    title: const Text('nouveau'),
+                    onTap: () => Navigator.pushReplacement(context,
+                        pageBuilder(NouveauSettingsPage(client: client))),
+                  ),
+                  horizontalDivider,
+                  ListTile(
+                    selected: title == 'About',
+                    leading: const Icon(YaruIcons.information),
+                    title: const Text('About'),
+                    onTap: () => Navigator.pushReplacement(
+                        context, pageBuilder(AboutPage(client: client))),
+                  ),
+                  horizontalDivider,
+                ],
+              ),
             ),
-          ),
-          const VerticalDivider(
-            width: 1,
-            indent: 0,
-            endIndent: 0,
-          ),
-          Expanded(child: buildPage(context)),
-        ],
+            const VerticalDivider(
+              width: 1,
+              indent: 0,
+              endIndent: 0,
+            ),
+            Expanded(child: buildPage(context)),
+          ],
+        ),
       ),
     );
   }
@@ -118,12 +121,12 @@ class SettingCategory extends StatelessWidget {
     return Material(
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        child: child,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           border: Border.all(color: Theme.of(context).dividerColor),
         ),
+        child: child,
       ),
     );
   }

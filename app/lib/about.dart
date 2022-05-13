@@ -13,6 +13,8 @@ class AboutPage extends SettingsPage {
       padding: const EdgeInsets.all(16.0),
       child: SettingCategory(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text("About", style: Theme.of(context).textTheme.headline5),
             const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
@@ -20,27 +22,29 @@ class AboutPage extends SettingsPage {
                 "Settings app. Made of a Flutter desktop application and a "
                 "daemon written in Golang.\n"),
             InkWell(
-              child: const Text(
-                  "Built with <3 at https://github.com/retrixe/control-center"),
-              onTap: () => launch("https://github.com/retrixe/control-center"),
-            ),
+                child: const Text(
+                    "Built with <3 at https://github.com/retrixe/control-center"),
+                onTap: () => launchUrl(
+                      Uri.parse("https://github.com/retrixe/control-center"),
+                    )),
             const Text("\nOther projects to look at:"),
             InkWell(
-              child: const Text("- OpenRazer/Polychromatic for Razer devices"),
-              onTap: () => launch("https://polychromatic.app/"),
-            ),
+                child:
+                    const Text("- OpenRazer/Polychromatic for Razer devices"),
+                onTap: () => launchUrl(
+                      Uri.parse("https://polychromatic.app/"),
+                    )),
             InkWell(
               child: const Text("- Piper for mice and keyboards"),
-              onTap: () => launch(
-                  "https://github.com/libratbag/piper/wiki/Installation"),
+              onTap: () => launchUrl(Uri.parse(
+                  "https://github.com/libratbag/piper/wiki/Installation")),
             ),
             InkWell(
               child: const Text("- asusctl for ASUS ROG laptops"),
-              onTap: () => launch("https://gitlab.com/asus-linux/asusctl"),
+              onTap: () =>
+                  launchUrl(Uri.parse("https://gitlab.com/asus-linux/asusctl")),
             ),
           ],
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
         ),
       ),
     );

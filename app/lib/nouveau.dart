@@ -162,13 +162,14 @@ class _NouveauDriDeviceState extends State<NouveauDriDevice> {
   Widget build(BuildContext context) {
     return SettingCategory(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // TODO: Show name of GPU, followed by Active power state: and drop-down offering power state options
           Text("nouveau DRI device ${widget.driDevice} (N/A)",
               style: Theme.of(context).textTheme.headline5),
           const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
           const Text("pstate toggling not yet implemented"),
         ],
-        crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
